@@ -10,11 +10,12 @@ const addUser = async (req, res, next) => {
 };
 const updateUser = async (req, res, next) => {
   try {
-    const result = await User.update(req.body.user, {
+    const [result] = await User.update(req.body.user, {
       where: {
         id: req.params.userID,
       },
     });
+    console.log(result);
     if (result) {
       res.status(200).json({ message: "user updated sucessfully" });
     } else {

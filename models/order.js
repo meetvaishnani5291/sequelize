@@ -15,9 +15,15 @@ const Order = sequelize.define(
       allowNull: false,
       defaultValue: 5,
     },
+    orderStatus: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "undelivered",
+    },
   },
   {
     // Other model options go here
+    timestamps: false,
   }
 );
 
