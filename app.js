@@ -31,7 +31,18 @@ app.use((error, req, res, next) => {
 
 app.listen(process.env.PORT, async () => {
   await sequelize.authenticate();
-  await sequelize.sync({ alter: true });
+  await sequelize.sync();
   console.log("Database connection established.");
   console.log("server running on port:" + process.env.PORT);
+});
+// console.log(sequelize.addConnectionListner);
+// sequelize.connectionManager.addConnectionListner("connection", (c) => {
+//   console.log("new connection", c.uuid);
+// });
+
+sequelize.addHook("beforeConnect", (config) => {
+  console.log("....................New connection will be established:");
+});
+sequelize.addHook("beforeDisconnect", (config) => {
+  console.log("................................Disconnect connection");
 });

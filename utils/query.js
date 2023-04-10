@@ -3,6 +3,7 @@ const Product = require("../models/product");
 const Order = require("../models/order");
 const OrderDetail = require("../models/orderDetail");
 const { Sequelize, where } = require("sequelize");
+const sequelize = require("./db-connection");
 
 const getUndeliveredOrders = async () => {
   const orders = await Order.findAll({
@@ -102,6 +103,12 @@ const getMostExpensiveOrder = async () => {
 const getMostCheapestOrder = async () => {
   return await getMostExpensiveOrCheapestOrder(false);
 };
+
+const sleep = async () => {
+  await sequelize.query("select sleep(10)");
+  return 1;
+};
+
 module.exports = [
   getUndeliveredOrders,
   getFiveMostRecentOrder,
@@ -110,4 +117,5 @@ module.exports = [
   getFiveMostPurchasedProducts,
   getMostExpensiveOrder,
   getMostCheapestOrder,
+  sleep,
 ];
