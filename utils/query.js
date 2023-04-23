@@ -1,8 +1,9 @@
+const { Sequelize } = require("sequelize");
+
 const User = require("../models/user");
 const Product = require("../models/product");
 const Order = require("../models/order");
 const OrderDetail = require("../models/orderDetail");
-const { Sequelize, where } = require("sequelize");
 const sequelize = require("./db-connection");
 
 const getUndeliveredOrders = async () => {
@@ -13,6 +14,7 @@ const getUndeliveredOrders = async () => {
   });
   return orders;
 };
+
 const getFiveMostRecentOrder = async () => {
   return await Order.findAll({ order: [["orderDate", "DESC"]], limit: 5 });
 };
@@ -109,7 +111,7 @@ const sleep = async () => {
   return 1;
 };
 
-module.exports = [
+module.exports = {
   getUndeliveredOrders,
   getFiveMostRecentOrder,
   getFiveMostActiveUser,
@@ -118,4 +120,4 @@ module.exports = [
   getMostExpensiveOrder,
   getMostCheapestOrder,
   sleep,
-];
+};

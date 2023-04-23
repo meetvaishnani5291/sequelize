@@ -18,8 +18,13 @@ app.use("/user", userRoutes);
 app.use("/product", productRoutes);
 app.use("/order", orderRoutes);
 
-app.get("/query/:number", async (req, res) => {
-  const data = await queries[req.params.number - 1]();
+app.get("/query/:queryName", async (req, res) => {
+  const query = queries[req.params.queryName];
+  if(query === undefined)
+    return res.json({ message: "no query found!" });
+  
+  const data = await query();
+
   if (Array.isArray(data) && data.length === 0)
     return res.json({ message: "no detail found!" });
   return res.status(200).json(data);
@@ -35,10 +40,6 @@ app.listen(process.env.PORT, async () => {
   console.log("Database connection established.");
   console.log("server running on port:" + process.env.PORT);
 });
-// console.log(sequelize.addConnectionListner);
-// sequelize.connectionManager.addConnectionListner("connection", (c) => {
-//   console.log("new connection", c.uuid);
-// });
 
 sequelize.addHook("beforeConnect", (config) => {
   console.log("....................New connection will be established:");
